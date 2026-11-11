@@ -1,0 +1,14 @@
+{
+  "Version": "1.0.7",
+  "Description": "Click-and-go simulation speed toolbar: pause, 1x, 5x, 10x and 25x.",
+  "Author": "yujis",
+  "SavedModVersionCompabilityRangeWithSelf": "<2.0.0",
+  "GameVersionSupportRange": ">=1.2.0 <1.3.0",
+  "AffectsSaveGames": false,
+  "DisablesAchievements": false,
+  "Conflicts": [],
+  "Dependencies": [],
+  "Assemblies": [
+    "FastForwarder.dll"
+  ]
+}

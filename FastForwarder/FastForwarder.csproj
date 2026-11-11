@@ -2,71 +2,75 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Nullable>enable</Nullable>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDependencyFile>False</GenerateDependencyFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RootNamespace>Shapez2Mods.FastForwarder</RootNamespace>
+    <AssemblyName>FastForwarder</AssemblyName>
+    <Version>1.0.7</Version>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <!-- StaticGameCoreAccessor and IGameSessionManagers are [Obsolete], but they are
+         the public API available for mods in shapez 2 1.2. -->
+    <NoWarn>CS0618</NoWarn>
   </PropertyGroup>
 
+  <!--
+    Point Shapez2Dir at the game installation (the folder containing "shapez 2_Data"),
+    or override ManagedDir directly. Examples:
+      Windows: dotnet build -c Release -p:Shapez2Dir="C:\Program Files (x86)\Steam\steamapps\common\shapez 2"
+      macOS:   dotnet build -c Release -p:ManagedDir="/Applications/shapez 2.app/Contents/Resources/Data/Managed"
+  -->
   <PropertyGroup>
-    <Shapez2Dir>C:\Program Files (x86)\Steam\steamapps\common\shapez 2</Shapez2Dir>
+    <Shapez2Dir Condition="'$(Shapez2Dir)' == ''">C:/Program Files (x86)/Steam/steamapps/common/shapez 2</Shapez2Dir>
+    <ManagedDir Condition="'$(ManagedDir)' == ''">$(Shapez2Dir)/shapez 2_Data/Managed</ManagedDir>
   </PropertyGroup>
 
+  <!-- Game assemblies: compile-time references only, never copied to the mod. -->
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>$(Shapez2Dir)\BepInEx\core\0Harmony.dll</HintPath>
+    <Reference Include="Core">
+      <HintPath>$(ManagedDir)/Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>$(Shapez2Dir)\BepInEx\core\BepInEx.dll</HintPath>
+    <Reference Include="Game.Core.Modding">
+      <HintPath>$(ManagedDir)/Game.Core.Modding.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SPZGameAssembly">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\SPZGameAssembly.dll</HintPath>
+      <HintPath>$(ManagedDir)/SPZGameAssembly.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Core">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Game.Core">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\Game.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Game.Core.Simulation">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\Game.Core.Simulation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Game.Orchestration">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\Game.Orchestration.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\UnityEngine.UIModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+
     <Reference Include="UnityEngine">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(ManagedDir)/UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(ManagedDir)/UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>$(ManagedDir)/UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>$(Shapez2Dir)\shapez 2_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>$(ManagedDir)/UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(ManagedDir)/UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedDir)/UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
